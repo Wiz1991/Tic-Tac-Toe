@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css?family=Rubik:400,700');
+@import url('https://fonts.googleapis.com/css2?family=Chelsea+Market&display=swap');
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+  }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+
+}
+
+:root {
+    --cell-size: 120px;
+    --primary-color: #202020;
+    --secondary-color: #2a2a2a
+}
+
+.title {
+    padding: 35px 35px 0 35px;
+    font-weight: 300;
+    font-size: 65px;
+    color: #fff;
+    font-family: 'Chelsea Market', cursive;
+    text-align: center;
+}
+
+body {
+    background: var(--primary-color);
+    font-family: 'Rubik', sans-serif;
+}
+
+/*--------FORM-------*/
+.setup-form {
+    background: var(--secondary-color);
+    width: 500px;
+    margin: 65px auto;
+    display: flex;
+    flex-direction: column;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    box-shadow: 0 2px 25px rgba(83, 83, 83, 0.2);
+}
+
+.setup-form h1 {
+    padding: 35px 35px 0 35px;
+    font-weight: 300;
+    color: #fff;
+}
+
+.setup-form .content {
+    padding: 35px;
+    text-align: center;
+}
+
+.setup-form .input-field {
+    padding: 12px 5px;
+}
+
+.setup-form .input-field input {
+    font-size: 16px;
+    display: block;
+    font-family: 'Rubik', sans-serif;
+    width: 100%;
+    padding: 10px 1px;
+    border: 0;
+    color: #fff;
+    background: transparent;
+    border-bottom: 1px solid #868585;
+    outline: none;
+    -webkit-transition: all .2s;
+    transition: all .2s;
+}
+
+.setup-form .input-field input::placeholder {
+    text-transform: uppercase;
+    color: rgb(148, 146, 146);
+}
+
+.setup-form .input-field input:focus {
+    border-color: rgb(255, 0, 0);
+}
+
+.setup-form .action {
+    display: flex;
+    flex-direction: row;
+}
+
+.setup-form .action button {
+    width: 100%;
+    border: none;
+    padding: 18px;
+    font-size: 16px;
+    font-weight: 500;
+    font-family: 'Rubik', sans-serif;
+    cursor: pointer;
+    text-transform: uppercase;
+    background: #1fa3ec;
+    color: #fff;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    letter-spacing: 0.2px;
+    outline: 0;
+    transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+}
+
+.setup-form .action button:hover {
+    opacity: 0.85;
+}
+.setup-form .action button:active{
+    box-shadow: inset 0 3px 4px hsla(0, 0%, 0%, 0.4);
+}
+
+/*-------BOARD------*/
+
+.board {
+    display: grid;
+    gap: 7px;
+    margin-top: 8em;
+    margin-bottom: 2em;
+    grid-template-rows: repeat(4, var(--cell-size));
+    grid-template-columns: repeat(3, var(--cell-size));
+    justify-content: center;
+}
+
+.cell {
+    display: grid;
+    background-color: var(--secondary-color);
+    border-radius: 7px;
+    font-family: 'Chelsea Market', cursive;
+    font-size: 3em;
+    font-weight: 700;
+    justify-content: center;
+    align-content: center;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    -ms-border-radius: 7px;
+    -o-border-radius: 7px;
+}
+.X{
+    color: red;
+}
+.O{
+    color: royalblue;
+}
+
+.turn-indicator{
+    grid-column-end: span 3;
+    justify-content: center;
+    align-self: center;
+    text-align: center;
+    color: #fff;
+    font-size: 25px;
+    font-weight: 600;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.player1 > span{
+    color: red;
+}
+.player2 > span{
+    color: royalblue;
+}
+
+.win-message{
+    color: #fff;
+    font-size: 26px;
+    text-align: center;
+    padding: 15px;
+
+}
+.game-control{
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    justify-content: center;
+    gap: 20px;
+}
+.game-control button{
+    display: inline-block;
+    margin: 0;
+    padding: 0.75rem 1rem;
+    border: 0;
+    background-color: #1fa3ec;
+    color: #fff;
+    outline: 0;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: 7px;
+    line-height: 1.5;
+    font-family: "Open Sans", Arial, sans-serif;
+    cursor: pointer;
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    -ms-border-radius: 7px;
+    -o-border-radius: 7px;
+}
+
+.game-control button:hover {
+	opacity: 0.85;
+}
+
+.game-control button:active {
+	box-shadow: inset 0 3px 4px hsla(0, 0%, 0%, 0.2);
+}
+
+.game-over{
+    display: none;
+}
+
+

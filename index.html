@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+
+</head>
+
+<body>
+    <h1 class="title noselect">Tic Tac Toe</h1>
+    <section id="setup-section">
+        <div class="setup-form">
+            <form id="game-start">
+                <h1>Setup</h1>
+                <div class="content">
+                    <div class="input-field">
+                        <input required type="text" id="p1name" placeholder="Player 1 name">
+                    </div>
+                    <div class="input-field">
+                        <input required type="text" id="p2name" placeholder="Player 2 name">
+                    </div>
+                </div>
+                <div class="action">
+                    <button>Start</button>
+                </div>
+            </form>
+        </div>
+    </section>
+    <section id="game-section" style="display: none;">
+        <div class="board">
+            <div class="turn-indicator noselect"><span id="player-turn"></span>'s turn</div>
+            <div dataset-index="1" class="cell noselect"></div>
+            <div dataset-index="2" class="cell noselect"></div>
+            <div dataset-index="3" class="cell noselect"></div>
+            <div dataset-index="4" class="cell noselect"></div>
+            <div dataset-index="5" class="cell noselect"></div>
+            <div dataset-index="6" class="cell noselect"></div>
+            <div dataset-index="7" class="cell noselect"></div>
+            <div dataset-index="8" class="cell noselect"></div>
+            <div dataset-index="9" class="cell noselect"></div>
+        </div>
+        <section class="game-over">
+            <h2 class="win-message "><span id="winner-name"></span> won!</h2>
+            <div class="game-control">
+                <button class="btn new-game">New Game</button>
+                <button class="btn replay">Replay</button>
+            </div>
+        </section>
+    </section>
+
+</body>
+
+</html>
