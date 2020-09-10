@@ -18,10 +18,10 @@
                 <h1>Setup</h1>
                 <div class="content">
                     <div class="input-field">
-                        <input required type="text" id="p1name" placeholder="Player 1 name">
+                        <input required type="text" id="p1name" placeholder="Player 1 name" autocomplete="off">
                     </div>
                     <div class="input-field">
-                        <input required type="text" id="p2name" placeholder="Player 2 name">
+                        <input required type="text" id="p2name" placeholder="Player 2 name" autocomplete="off">
                     </div>
                 </div>
                 <div class="action">
@@ -33,15 +33,15 @@
     <section id="game-section" style="display: none;">
         <div class="board">
             <div class="turn-indicator noselect"><span id="player-turn"></span>'s turn</div>
-            <div dataset-index="1" class="cell noselect"></div>
-            <div dataset-index="2" class="cell noselect"></div>
-            <div dataset-index="3" class="cell noselect"></div>
-            <div dataset-index="4" class="cell noselect"></div>
-            <div dataset-index="5" class="cell noselect"></div>
-            <div dataset-index="6" class="cell noselect"></div>
-            <div dataset-index="7" class="cell noselect"></div>
-            <div dataset-index="8" class="cell noselect"></div>
-            <div dataset-index="9" class="cell noselect"></div>
+            <div data-index="0" class="cell noselect"></div>
+            <div data-index="1" class="cell noselect"></div>
+            <div data-index="2" class="cell noselect"></div>
+            <div data-index="3" class="cell noselect"></div>
+            <div data-index="4" class="cell noselect"></div>
+            <div data-index="5" class="cell noselect"></div>
+            <div data-index="6" class="cell noselect"></div>
+            <div data-index="7" class="cell noselect"></div>
+            <div data-index="8" class="cell noselect"></div>
         </div>
         <section class="game-over">
             <h2 class="win-message "><span id="winner-name"></span> won!</h2>
