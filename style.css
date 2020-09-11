@@ -19,6 +19,7 @@
 
 :root {
     --cell-size: 120px;
+    --mobile-cell-size: 90px;
     --primary-color: #202020;
     --secondary-color: #2a2a2a
 }
@@ -187,6 +188,7 @@ body {
     flex-wrap: wrap;
     text-align: center;
     justify-content: center;
+    margin-bottom: 5em;
     gap: 20px;
 }
 .game-control button{
@@ -223,3 +225,26 @@ body {
 }
 
 
+@media only screen and (max-width: 768px) {
+    .setup-form{
+        width: 90%;
+    }
+
+    .board{
+        grid-template-rows: repeat(4, var(--mobile-cell-size));
+        grid-template-columns: repeat(3, var(--mobile-cell-size));
+        margin-top: 3em;
+    }
+    .title{
+        font-size: 45px;
+    }
+    .win-message{
+        font-size: 20px;
+    }
+    .turn-indicator{
+        font-size: 20px;
+    }
+    .setup-form .input-field input {
+        font-size: 13px;
+    }
+}

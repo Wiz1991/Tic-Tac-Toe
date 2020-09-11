@@ -40,7 +40,7 @@ const gameBoard = (function () {
         disableBoard
     }
 })()
-const displayControler = (function () {
+const displayController = (function () {
     const setup_section = document.getElementById('setup-section')
     const game_section = document.getElementById('game-section')
     const p_turn_name = document.getElementById('player-turn')
@@ -121,19 +121,19 @@ const gameController = (function () {
     }
     const toggleTurn = () => {
         atTurn = atTurn === 'X' ? 'O' : 'X'
-        displayControler.displayTurn(atTurn === 'X' ? player1 : player2)
+        displayController.displayTurn(atTurn === 'X' ? player1 : player2)
     }
     const replay = () => {
-        displayControler.displayTurn(player1)
+        displayController.displayTurn(player1)
         gameBoard.restartBoard()
         gameBoard.enableBoard()
-        displayControler.hideGameOverSection()
+        displayController.hideGameOverSection()
         render()
     }
     const newGame = () => {
-        displayControler.hideGameOverSection()
-        displayControler.hideGameSection()
-        displayControler.showSetupSection()
+        displayController.hideGameOverSection()
+        displayController.hideGameSection()
+        displayController.showSetupSection()
         gameBoard.restartBoard()
         render()
     }
@@ -147,10 +147,10 @@ const gameController = (function () {
 
 
 
-        displayControler.hideSetupSection()
-        displayControler.showGameSection()
+        displayController.hideSetupSection()
+        displayController.showGameSection()
 
-        displayControler.displayTurn(player1)
+        displayController.displayTurn(player1)
         gameBoard.enableBoard()
 
         form.reset()
@@ -167,14 +167,16 @@ const gameController = (function () {
             let winner = checkWin(player1) ? player1 : checkWin(player2) ? player2  : null
 
             if(winner != null){
-                displayControler.setWinPlayer(winner)
-                displayControler.showGameOverSection()
+                displayController.setWinPlayer(winner)
+                displayController.showGameOverSection()
                 gameBoard.disableBoard()
+                window.scrollTo(0,document.body.scrollHeight);
             }
             else if(!gameBoard.isTurnLeft()){
-                displayControler.setTie()
-                displayControler.showGameOverSection()
+                displayController.setTie()
+                displayController.showGameOverSection()
                 gameBoard.disableBoard()
+                window.scrollTo(0,document.body.scrollHeight);
             }
             else{
                 toggleTurn()
@@ -182,6 +184,14 @@ const gameController = (function () {
             render()
         }
     }
+
+
+    /*
+    *  Works by looping through winConditions then checking if every element inside 
+    *  the inner array is equal to the given player symbol.
+    *  By using some() if at least one of the return values is true
+    *  then we have a winner
+    */
     const checkWin = (player) => {
         var winConditions = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [6,4,2]];
         const  board  = gameBoard.getBoard()
@@ -216,9 +226,6 @@ const gameController = (function () {
         getTurn,
         play
     }
-
-
-
 })()
 
 
