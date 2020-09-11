@@ -1,55 +1,43 @@
-function createPlayer(name) {
-
-    function getName() {
-        return name
-    }
+function createPlayer(name,symbol) {
+    const getName = () => name;
+    const getSymbol = () => symbol;
 
     return {
-        getName
+        getName,
+        getSymbol
     }
 }
 const gameBoard = (function () {
     const board = new Array(9).fill('')
     const cells = document.querySelectorAll('.cell')
-
     const getBoard = () => board
 
     const enableBoard = () => {
         [...cells].forEach(cell => {
-            cell.addEventListener('click', play)
+            cell.addEventListener('click', gameController.play)
         });
     }
-
-    const play = (e) => {
-        let index = e.target.dataset.index
-        if (board[index] === '') {
-            board[index] = game.getTurn()
-            console.log(board)
-            render()
-            game.toggleTurn()
-        }
-
+    const disableBoard = () => {
+        [...cells].forEach(cell => {
+            cell.removeEventListener('click',gameController.play)
+        })
+    }
+    const restartBoard = () => {
+        board.fill('')
     }
 
-    const render = () => {
-     
-
-        [...cells].forEach((cell,index) => {
-            if(board[index] === 'X'){
-                cell.classList.add("X")
-                cell.innerHTML = "X"
-            }
-            else if(board[index] === 'O'){
-                cell.classList.add("O")
-                cell.innerHTML = "O"
-            }
-        });
-
+    const isTurnLeft = () => {
+        return board.some((cell)=>{
+            return cell === ''
+        })
     }
 
     return {
         getBoard,
-        enableBoard
+        enableBoard,
+        restartBoard,
+        isTurnLeft,
+        disableBoard
     }
 })()
 const displayControler = (function () {
@@ -57,7 +45,7 @@ const displayControler = (function () {
     const game_section = document.getElementById('game-section')
     const p_turn_name = document.getElementById('player-turn')
     const turn_indicator = document.querySelector('.turn-indicator')
-
+    const game_over_section = document.querySelector('.game-over')
     const showSetupSection = () => {
         setup_section.style.display = "block"
     }
@@ -74,46 +62,90 @@ const displayControler = (function () {
 
     const displayTurn = (player) => {
         p_turn_name.innerHTML = player.getName()
-        turn_indicator.classList.remove(`${game.getTurn() === 'X' ? 'player2' : 'player1' }`)
-        turn_indicator.classList.add(`${game.getTurn() === 'X' ? 'player1' : 'player2' }`)
+
+        if(turn_indicator.classList.contains('X')) turn_indicator.classList.remove('X')
+        if(turn_indicator.classList.contains('O')) turn_indicator.classList.remove('O')
+
+        turn_indicator.classList.add(player.getSymbol())
     }
 
+    const showGameOverSection = () => {
+        game_over_section.style.display = "block"
+    }
+    const hideGameOverSection = () => {
+        game_over_section.style.display = "none"
+    }
 
+    const setWinPlayer = (player) => {
+        const message = document.getElementById('winner-name');
+        message.innerHTML= player.getName()
+        if(message.classList.contains('X')) message.classList.remove('X')
+        if(message.classList.contains('O')) message.classList.remove('O')
 
+        message.classList.add(player.getSymbol())
+    }
+    const setTie = () => {
+        document.getElementById('winner-name').innerHTML = ""
+        document.querySelector('.win-message').childNodes[1].nodeValue = "Its a tie!"
+    }
     return {
         showGameSection,
         hideGameSection,
         showSetupSection,
         hideSetupSection,
-        displayTurn
+        displayTurn,
+        showGameOverSection,
+        hideGameOverSection,
+        setTie,
+        setWinPlayer
     }
 
 })()
 
-const game = (function () {
+const gameController = (function () {
     let player1 = {}
     let player2 = {}
     let atTurn = 'X'
     const form = document.getElementById('game-start')
-
+    const cells = document.querySelectorAll('.cell')
+    const new_game_button = document.getElementById('new-game')
+    const replay_button = document.getElementById('replay')
     const init = () => {
         form.addEventListener('submit', startGame)
+        new_game_button.addEventListener('click',newGame)
+        replay_button.addEventListener('click',replay)
     }
 
     const getTurn = () => {
         return atTurn
     }
     const toggleTurn = () => {
-        atTurn = atTurn == 'X' ? 'O' : 'X'
-        displayControler.displayTurn(atTurn == 'X' ? player1 : player2)
+        atTurn = atTurn === 'X' ? 'O' : 'X'
+        displayControler.displayTurn(atTurn === 'X' ? player1 : player2)
+    }
+    const replay = () => {
+        displayControler.displayTurn(player1)
+        gameBoard.restartBoard()
+        gameBoard.enableBoard()
+        displayControler.hideGameOverSection()
+        render()
+    }
+    const newGame = () => {
+        displayControler.hideGameOverSection()
+        displayControler.hideGameSection()
+        displayControler.showSetupSection()
+        gameBoard.restartBoard()
+        render()
     }
 
     const startGame = function (e) {
         e.preventDefault()
         const name1 = document.getElementById('p1name').value
         const name2 = document.getElementById('p2name').value
-        player1 = createPlayer(name1)
-        player2 = createPlayer(name2)
+        player1 = createPlayer(name1,'X')
+        player2 = createPlayer(name2,'O')
+
+
 
         displayControler.hideSetupSection()
         displayControler.showGameSection()
@@ -121,13 +153,68 @@ const game = (function () {
         displayControler.displayTurn(player1)
         gameBoard.enableBoard()
 
+        form.reset()
+
     }
 
+    const play =  (e) => {
+        let index = e.target.dataset.index
+        const board  =  gameBoard.getBoard();
+        if (board[index] === '') {
+            board[index] = gameController.getTurn()
 
+
+            let winner = checkWin(player1) ? player1 : checkWin(player2) ? player2  : null
+
+            if(winner != null){
+                displayControler.setWinPlayer(winner)
+                displayControler.showGameOverSection()
+                gameBoard.disableBoard()
+            }
+            else if(!gameBoard.isTurnLeft()){
+                displayControler.setTie()
+                displayControler.showGameOverSection()
+                gameBoard.disableBoard()
+            }
+            else{
+                toggleTurn()
+            }
+            render()
+        }
+    }
+    const checkWin = (player) => {
+        var winConditions = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [6,4,2]];
+        const  board  = gameBoard.getBoard()
+        return winConditions.some((threeInRow) => {
+            return threeInRow.every((cell)=>{
+                return board[cell] === player.getSymbol()
+            })
+        })
+
+
+
+    }
+    const render = () => {
+        const board = gameBoard.getBoard();
+        [...cells].forEach((cell, index) => {
+            if (board[index] === 'X') {
+                cell.classList.add("X")
+                cell.innerHTML = "X"
+            } else if (board[index] === 'O') {
+                cell.classList.add("O")
+                cell.innerHTML = "O"
+            } else {
+                cell.classList.remove('X')
+                cell.classList.remove('O')
+                cell.innerHTML = ""
+            }
+        });
+
+    }
     return {
         init,
         getTurn,
-        toggleTurn
+        play
     }
 
 
@@ -135,4 +222,4 @@ const game = (function () {
 })()
 
 
-game.init()
+gameController.init()

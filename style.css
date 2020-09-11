@@ -168,10 +168,10 @@ body {
     font-weight: 600;
     font-family: Arial, Helvetica, sans-serif;
 }
-.player1 > span{
+.X > span{
     color: red;
 }
-.player2 > span{
+.O > span{
     color: royalblue;
 }
 
